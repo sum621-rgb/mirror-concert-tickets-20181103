@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MIRROR 演唱會門票統計管理系統</title>
+  <title>MIRROR 演唱會門票統計2026</title> 
   <!-- Google Fonts: Noto Sans TC Medium -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,6 +44,68 @@
       padding: 20px 12px;
       max-width: 1200px;
       margin: 0 auto;
+    }
+
+    /* 密碼防護遮罩 */
+    #lock-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #0a0a0a;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .lock-box {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      padding: 30px 24px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    }
+
+    .lock-box h2 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .lock-box p {
+      color: var(--text-sub);
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+
+    .lock-box input {
+      width: 100%;
+      text-align: center;
+      letter-spacing: 3px;
+      font-size: 1.2rem;
+      margin-bottom: 14px;
+    }
+
+    .lock-box .btn {
+      margin-top: 0;
+    }
+
+    #lock-error {
+      color: #ef4444;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* 主內容預設隱藏 */
+    #main-app {
+      display: none;
     }
 
     header {
@@ -320,147 +382,194 @@
 </head>
 <body>
 
-  <header>
-    <h1>MIRROR CONCERT 門票管理</h1>
-    <p>即時同步紀錄平台 | 黑白極簡版</p>
-  </header>
-
-  <div class="alert-card">
-    <div class="icon">⚠️</div>
-    <div>
-      <strong>朋友唔得嘅日子提醒：</strong><br>
-      <strong>Lorjai</strong> 睇唔到演唱會嘅日期為：<strong>12月11日 至 12月15日</strong>。買飛同分飛時請特別留意！
+  <!-- 🔒 密碼驗證解鎖頁面 -->
+  <div id="lock-screen">
+    <div class="lock-box">
+      <h2>🔒 請輸入通行密碼</h2>
+      <p>此網頁受密碼保護，請輸入密碼以查看與更新門票資料。</p>
+      <input type="password" id="pass-input" placeholder="••••••••" autofocus>
+      <button class="btn" onclick="verifyPassword()">解鎖進入</button>
+      <div id="lock-error">❌ 密碼錯誤，請重新輸入！</div>
     </div>
   </div>
 
-  <div class="sync-bar">
-    <span>雲端資料庫連線：</span>
-    <div class="status-badge">
-      <span>🟢</span> 已連接 (即時 Live 同步中)
-    </div>
-  </div>
+  <!-- 門票管理系統主內容 -->
+  <div id="main-app">
+    <header>
+      <h1>MIRROR CONCERT 門票管理</h1>
+      <p>即時同步紀錄平台 | 密碼保護版</p>
+    </header>
 
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="label">總門票張數</div>
-      <div class="value" id="stat-total-count">0 張</div>
+    <div class="alert-card">
+      <div class="icon">⚠️</div>
+      <div>
+        <strong>朋友唔得嘅日子提醒：</strong><br>
+        <strong>Lorjai</strong> 睇唔到演唱會嘅日期為：<strong>12月11日 至 12月15日</strong>。買飛同分飛時請特別留意！
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="label">$1680 門票</div>
-      <div class="value" id="stat-1680">0 張</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">$1480 門票</div>
-      <div class="value" id="stat-1480">0 張</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">$1080 門票</div>
-      <div class="value" id="stat-1080">0 張</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">$780 門票</div>
-      <div class="value" id="stat-780">0 張</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">預算總金額 (含手續費)</div>
-      <div class="value" id="stat-total-price">$0</div>
-    </div>
-  </div>
 
-  <div class="panel">
-    <div class="panel-title">新增搶到嘅門票</div>
-    <form id="ticket-form">
-      <div class="form-grid">
-        <div class="form-group">
-          <label for="buyer">搶飛人</label>
-          <select id="buyer" required onchange="checkLorjaiWarning()">
-            <option value="Tracy">Tracy</option>
-            <option value="Lorjai">Lorjai</option>
-            <option value="Yuki">Yuki</option>
-            <option value="Kelly">Kelly</option>
-          </select>
+    <div class="sync-bar">
+      <span>雲端資料庫連線：</span>
+      <div class="status-badge">
+        <span>🟢</span> 已連接 (即時 Live 同步中)
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">總門票張數</div>
+        <div class="value" id="stat-total-count">0 張</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">$1680 門票</div>
+        <div class="value" id="stat-1680">0 張</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">$1480 門票</div>
+        <div class="value" id="stat-1480">0 張</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">$1080 門票</div>
+        <div class="value" id="stat-1080">0 張</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">$780 門票</div>
+        <div class="value" id="stat-780">0 張</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">預算總金額 (含手續費)</div>
+        <div class="value" id="stat-total-price">$0</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">新增搶到嘅門票</div>
+      <form id="ticket-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="buyer">搶飛人</label>
+            <select id="buyer" required onchange="checkLorjaiWarning()">
+              <option value="Tracy">Tracy</option>
+              <option value="Lorjai">Lorjai</option>
+              <option value="Yuki">Yuki</option>
+              <option value="Kelly">Kelly</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="date">演唱會日期</label>
+            <select id="date" required onchange="checkLorjaiWarning()">
+              <option value="12月11日">12月11日 (三)</option>
+              <option value="12月12日">12月12日 (四)</option>
+              <option value="12月13日">12月13日 (五)</option>
+              <option value="12月15日">12月15日 (日)</option>
+              <option value="12月16日">12月16日 (一)</option>
+              <option value="12月17日">12月17日 (二)</option>
+              <option value="12月18日">12月18日 (三)</option>
+              <option value="12月20日">12月20日 (五)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="price">票價 (自動加$60手續費)</label>
+            <select id="price" required>
+              <option value="1680">$1680 (連手續費 $1740)</option>
+              <option value="1480">$1480 (連手續費 $1540)</option>
+              <option value="1080">$1080 (連手續費 $1140)</option>
+              <option value="780">$780 (連手續費 $840)</option>
+            </select>
+            <div class="fee-notice">每張門票均已包含 $60 手續費</div>
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">張數</label>
+            <input type="number" id="quantity" min="1" max="10" value="2" required>
+          </div>
+
+          <div class="form-group">
+            <label for="source">門票來源</label>
+            <select id="source" required>
+              <option value="內部訂購">內部訂購</option>
+              <option value="Klook">Klook</option>
+              <option value="其他/自購">其他 / 自購</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="note">座位 / 備註</label>
+            <input type="text" id="note" placeholder="例：Block A / 4行">
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="date">演唱會日期</label>
-          <select id="date" required onchange="checkLorjaiWarning()">
-            <option value="12月11日">12月11日 (三)</option>
-            <option value="12月12日">12月12日 (四)</option>
-            <option value="12月13日">12月13日 (五)</option>
-            <option value="12月15日">12月15日 (日)</option>
-            <option value="12月16日">12月16日 (一)</option>
-            <option value="12月17日">12月17日 (二)</option>
-            <option value="12月18日">12月18日 (三)</option>
-            <option value="12月20日">12月20日 (五)</option>
-          </select>
+        <div id="lorjai-alert" style="display:none; color:#fef08a; font-size:0.85rem; margin-top:10px;">
+          ⚠️ 提示：Lorjai 於 12月11-15日 無法出席！請確認是否幫其他人購買。
         </div>
 
-        <div class="form-group">
-          <label for="price">票價 (自動加$60手續費)</label>
-          <select id="price" required>
-            <option value="1680">$1680 (連手續費 $1740)</option>
-            <option value="1480">$1480 (連手續費 $1540)</option>
-            <option value="1080">$1080 (連手續費 $1140)</option>
-            <option value="780">$780 (連手續費 $840)</option>
-          </select>
-          <div class="fee-notice">每張門票均已包含 $60 手續費</div>
-        </div>
+        <button type="submit" class="btn">＋ 新增門票紀錄</button>
+      </form>
+    </div>
 
-        <div class="form-group">
-          <label for="quantity">張數</label>
-          <input type="number" id="quantity" min="1" max="10" value="2" required>
-        </div>
-
-        <div class="form-group">
-          <label for="source">門票來源</label>
-          <select id="source" required>
-            <option value="內部訂購">內部訂購</option>
-            <option value="Klook">Klook</option>
-            <option value="其他/自購">其他 / 自購</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="note">座位 / 備註</label>
-          <input type="text" id="note" placeholder="例：Block A / 4行">
-        </div>
+    <div class="panel">
+      <div class="panel-title">已搶到門票列表</div>
+      
+      <div class="table-container desktop-table">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>搶飛人</th>
+              <th>來源</th>
+              <th>票價 (單張)</th>
+              <th>張數</th>
+              <th>總額 (含手續費)</th>
+              <th>備註</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="ticket-table-body">
+          </tbody>
+        </table>
       </div>
 
-      <div id="lorjai-alert" style="display:none; color:#fef08a; font-size:0.85rem; margin-top:10px;">
-        ⚠️ 提示：Lorjai 於 12月11-15日 無法出席！請確認是否幫其他人購買。
+      <div class="mobile-cards" id="mobile-cards-body">
       </div>
-
-      <button type="submit" class="btn">＋ 新增門票紀錄</button>
-    </form>
-  </div>
-
-  <div class="panel">
-    <div class="panel-title">已搶到門票列表</div>
-    
-    <div class="table-container desktop-table">
-      <table>
-        <thead>
-          <tr>
-            <th>日期</th>
-            <th>搶飛人</th>
-            <th>來源</th>
-            <th>票價 (單張)</th>
-            <th>張數</th>
-            <th>總額 (含手續費)</th>
-            <th>備註</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody id="ticket-table-body">
-        </tbody>
-      </table>
-    </div>
-
-    <div class="mobile-cards" id="mobile-cards-body">
     </div>
   </div>
 
   <script>
+    // 預設解鎖密碼
+    const CORRECT_PASS = "mirror2026";
+
+    // 驗證密碼
+    function verifyPassword() {
+      const pass = document.getElementById('pass-input').value;
+      if (pass === CORRECT_PASS) {
+        localStorage.setItem('mirror_auth', 'true');
+        unlockApp();
+      } else {
+        document.getElementById('lock-error').style.display = 'block';
+      }
+    }
+
+    // 解鎖應用程式
+    function unlockApp() {
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('main-app').style.display = 'block';
+    }
+
+    // 頁面載入時檢查認證
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('mirror_auth') === 'true') {
+        unlockApp();
+      }
+      
+      // 支援 Enter 鍵解鎖
+      document.getElementById('pass-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') verifyPassword();
+      });
+    });
+
+    // Firebase 設定
     const firebaseConfig = {
       apiKey: "AIzaSyB3dNQAw5P6y2RdpYP5-13VyncSDZZyRaC",
       authDomain: "mirror-tickets2026.firebaseapp.com",
