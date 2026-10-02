@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MIRROR 2026演唱會門票統計</title> 
+  <title>2026Mirror 門票統計</title>
   <!-- Google Fonts: Noto Sans TC Medium -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,6 @@
       --text-main: #ffffff;
       --text-sub: #a1a1aa;
       --accent-white: #ffffff;
-      --accent-gray: #3f3f46;
       --danger-color: #ef4444;
       --warning-bg: #221c10;
       --warning-border: #854d0e;
@@ -29,11 +28,7 @@
       --font-family: 'Noto Sans TC', sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg-color);
@@ -48,371 +43,175 @@
 
     /* 密碼防護遮罩 */
     #lock-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #0a0a0a;
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: #0a0a0a; z-index: 9999; display: flex;
+      justify-content: center; align-items: center; padding: 20px;
     }
 
     .lock-box {
-      background: #141414;
-      border: 1px solid #2a2a2a;
-      padding: 30px 24px;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
+      background: #141414; border: 1px solid #2a2a2a; padding: 30px 24px;
+      border-radius: 16px; width: 100%; max-width: 380px; text-align: center;
       box-shadow: 0 10px 25px rgba(0,0,0,0.8);
     }
 
-    .lock-box h2 {
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    }
+    .lock-box h2 { font-size: 1.3rem; margin-bottom: 10px; }
+    .lock-box p { color: var(--text-sub); font-size: 0.85rem; margin-bottom: 20px; }
+    .lock-box input { width: 100%; text-align: center; letter-spacing: 3px; font-size: 1.2rem; margin-bottom: 14px; }
+    #lock-error { color: #ef4444; font-size: 0.8rem; margin-top: 10px; display: none; }
 
-    .lock-box p {
-      color: var(--text-sub);
-      font-size: 0.85rem;
-      margin-bottom: 20px;
-    }
-
-    .lock-box input {
-      width: 100%;
-      text-align: center;
-      letter-spacing: 3px;
-      font-size: 1.2rem;
-      margin-bottom: 14px;
-    }
-
-    .lock-box .btn {
-      margin-top: 0;
-    }
-
-    #lock-error {
-      color: #ef4444;
-      font-size: 0.8rem;
-      margin-top: 10px;
-      display: none;
-    }
-
-    /* 主內容預設隱藏 */
-    #main-app {
-      display: none;
-    }
+    #main-app { display: none; }
 
     header {
-      text-align: center;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
+      text-align: center; margin-bottom: 20px; padding-bottom: 16px;
       border-bottom: 1px solid var(--card-border);
     }
 
-    header h1 {
-      font-size: 1.8rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
+    header h1 { font-size: 1.8rem; letter-spacing: 1px; margin-bottom: 4px; }
+    header p { color: var(--text-sub); font-size: 0.85rem; }
+
+    /* 快捷搶飛 Links */
+    .quick-links {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+      justify-content: center;
     }
 
-    header p {
-      color: var(--text-sub);
-      font-size: 0.9rem;
+    .link-btn {
+      background: #1e293b; border: 1px solid #0284c7;
+      color: #38bdf8; padding: 10px 20px; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 700; text-decoration: none; display: flex;
+      align-items: center; gap: 6px; transition: background 0.2s;
     }
+
+    .link-btn:hover { background: #0284c7; color: #ffffff; }
 
     .alert-card {
-      background: var(--warning-bg);
-      border: 1px solid var(--warning-border);
-      color: var(--warning-text);
-      padding: 14px 18px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-    }
-
-    .alert-card .icon {
-      font-size: 1.2rem;
-      line-height: 1;
-    }
-
-    .alert-card strong {
-      color: #fff;
+      background: var(--warning-bg); border: 1px solid var(--warning-border);
+      color: var(--warning-text); padding: 12px 16px; border-radius: 12px;
+      margin-bottom: 20px; font-size: 0.85rem;
     }
 
     .sync-bar {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      padding: 12px 16px;
-      border-radius: 10px;
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.85rem;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      padding: 10px 16px; border-radius: 10px; margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem;
     }
 
     .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      background: #1c2e1f;
-      color: #4ade80;
-      border: 1px solid #166534;
-      font-size: 0.8rem;
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;
+      border-radius: 20px; background: #1c2e1f; color: #4ade80; border: 1px solid #166534; font-size: 0.8rem;
     }
 
     .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 12px;
-      margin-bottom: 24px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px; margin-bottom: 24px;
     }
 
     .stat-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      padding: 14px;
-      border-radius: 12px;
-      text-align: center;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      padding: 12px; border-radius: 12px; text-align: center;
     }
 
-    .stat-card .label {
-      font-size: 0.75rem;
-      color: var(--text-sub);
-      margin-bottom: 4px;
-    }
-
-    .stat-card .value {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
+    .stat-card .label { font-size: 0.75rem; color: var(--text-sub); margin-bottom: 4px; }
+    .stat-card .value { font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
+    .stat-card.unpaid .value { color: #f87171; }
 
     .panel {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 24px;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 20px; margin-bottom: 24px;
     }
 
     .panel-title {
-      font-size: 1.1rem;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-left: 4px solid var(--accent-white);
-      padding-left: 10px;
+      font-size: 1.05rem; margin-bottom: 16px; display: flex; align-items: center;
+      gap: 8px; border-left: 4px solid var(--accent-white); padding-left: 10px;
     }
 
     .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;
     }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 0.8rem; color: var(--text-sub); }
 
-    .form-group label {
-      font-size: 0.85rem;
-      color: var(--text-sub);
-    }
-
-    input, select, textarea {
-      background: #000000;
-      border: 1px solid var(--card-border);
-      color: #ffffff;
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-family: var(--font-family);
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--accent-white);
-    }
-
-    .fee-notice {
-      font-size: 0.75rem;
-      color: #a1a1aa;
-      margin-top: 2px;
+    input, select {
+      background: #000000; border: 1px solid var(--card-border); color: #ffffff;
+      padding: 9px 12px; border-radius: 8px; font-family: var(--font-family);
+      font-size: 0.9rem; outline: none;
     }
 
     .btn {
-      background: var(--accent-white);
-      color: #000000;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-family: var(--font-family);
-      font-weight: 700;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 14px;
-      font-size: 1rem;
-      transition: opacity 0.2s;
-    }
-
-    .btn:hover {
-      opacity: 0.9;
+      background: var(--accent-white); color: #000000; border: none;
+      padding: 12px 20px; border-radius: 8px; font-weight: 700; cursor: pointer;
+      width: 100%; margin-top: 16px; font-size: 0.95rem;
     }
 
     .btn-danger {
-      background: #3f1818;
-      color: #f87171;
-      border: 1px solid #7f1d1d;
-      padding: 6px 10px;
-      font-size: 0.8rem;
-      border-radius: 6px;
-      width: auto;
-      margin: 0;
+      background: #3f1818; color: #f87171; border: 1px solid #7f1d1d;
+      padding: 5px 8px; font-size: 0.75rem; border-radius: 6px; cursor: pointer;
     }
 
-    .table-container {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 0.9rem;
-    }
-
-    th, td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--card-border);
-    }
-
-    th {
-      background: #080808;
-      color: var(--text-sub);
-      font-weight: 500;
+    .btn-action {
+      background: #27272a; color: #38bdf8; border: 1px solid #3f3f46;
+      padding: 4px 8px; font-size: 0.75rem; border-radius: 6px; cursor: pointer; margin-right: 4px;
     }
 
     .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      border: 1px solid var(--card-border);
-      background: #1f1f1f;
+      display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem;
+      border: 1px solid var(--card-border); background: #1f1f1f;
     }
 
-    .badge-internal {
-      background: #1e293b;
-      color: #38bdf8;
-      border-color: #0284c7;
-    }
+    .badge-internal { background: #1e293b; color: #38bdf8; border-color: #0284c7; }
+    .badge-klook { background: #311313; color: #fca5a5; border-color: #991b1b; }
+    .badge-unpaid { background: #3f1818; color: #f87171; border-color: #7f1d1d; }
+    .badge-paid { background: #1c2e1f; color: #4ade80; border-color: #166534; }
 
-    .badge-klook {
-      background: #311313;
-      color: #fca5a5;
-      border-color: #991b1b;
-    }
+    .table-container { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--card-border); text-align: left; }
+    th { background: #080808; color: var(--text-sub); }
 
     @media (max-width: 768px) {
-      .desktop-table {
-        display: none;
-      }
-
-      .mobile-cards {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .ticket-card {
-        background: #000000;
-        border: 1px solid var(--card-border);
-        border-radius: 10px;
-        padding: 14px;
-      }
-
-      .ticket-card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #222;
-        padding-bottom: 8px;
-        margin-bottom: 8px;
-      }
-
-      .ticket-card-body {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        font-size: 0.85rem;
-      }
-
-      .ticket-card-footer {
-        margin-top: 10px;
-        padding-top: 8px;
-        border-top: 1px solid #222;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
+      .desktop-table { display: none; }
+      .mobile-cards { display: flex; flex-direction: column; gap: 12px; }
+      .ticket-card { background: #000; border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; }
+      .ticket-card-header { display: flex; justify-content: space-between; border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 8px; }
+      .ticket-card-body { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.8rem; }
+      .ticket-card-footer { margin-top: 10px; padding-top: 8px; border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
     }
-
-    @media (min-width: 769px) {
-      .mobile-cards {
-        display: none;
-      }
-    }
+    @media (min-width: 769px) { .mobile-cards { display: none; } }
   </style>
 </head>
 <body>
 
-  <!-- 🔒 密碼驗證解鎖頁面 -->
+  <!-- 🔒 密碼解鎖頁面 -->
   <div id="lock-screen">
     <div class="lock-box">
       <h2>🔒 請輸入通行密碼</h2>
-      <p>此網頁受密碼保護，請輸入密碼以查看與更新門票資料。</p>
+      <p>呢個網頁有密碼保護，請輸入密碼解鎖。</p>
       <input type="password" id="pass-input" placeholder="••••••••" autofocus>
       <button class="btn" onclick="verifyPassword()">解鎖進入</button>
-      <div id="lock-error">❌ 密碼錯誤，請重新輸入！</div>
+      <div id="lock-error">❌ 密碼不正確，請再試下！</div>
     </div>
   </div>
 
-  <!-- 門票管理系統主內容 -->
+  <!-- 主系統 -->
   <div id="main-app">
     <header>
-      <h1>MIRROR 2026演唱會門票統計</h1>
-      <p>即時同步紀錄平台</p>
+      <h1>2026Mirror 門票統計</h1>
+      <p>即時門票紀錄與找數系統</p>
     </header>
 
+    <!-- 搶飛 Quick Link -->
+    <div class="quick-links">
+      <a href="https://mail.mirrorweare.com/CL0/https:%2F%2Fs.klook.com%2Fmirror2026miropb1/1/010e01a0eb576f7a-6899873a-b916-42cf-ace5-364cac231347-000000/qJiUKHzNdgKKZatNpxcu__e6HAfvX-9t871izAHzF28=258" target="_blank" class="link-btn">🚀 點擊直達 Klook 官方搶飛專頁</a>
+    </div>
+
     <div class="alert-card">
-      <div class="icon">⚠️</div>
-      <div>
-        <strong>朋友唔得嘅日子提醒：</strong><br>
-        <strong>Lorjai</strong> 睇唔到演唱會嘅日期為：<strong>12月11日 至 12月15日</strong>。買飛同分飛時請特別留意！
-      </div>
+      ⚠️ <strong> Lorjai 盲區提醒：</strong> 12月11日 至 12月15日 睇唔到！記得避開呢幾場！
     </div>
 
     <div class="sync-bar">
-      <span>雲端資料庫連線：</span>
-      <div class="status-badge">
-        <span>🟢</span> 已連接 (即時 Live 同步中)
-      </div>
+      <span>雲端即時連線：</span>
+      <div class="status-badge"><span>🟢</span> 已連接 (Live 同步中)</div>
     </div>
 
     <div class="stats-grid">
@@ -421,34 +220,40 @@
         <div class="value" id="stat-total-count">0 張</div>
       </div>
       <div class="stat-card">
-        <div class="label">$1680 門票</div>
+        <div class="label">$1680 飛</div>
         <div class="value" id="stat-1680">0 張</div>
       </div>
       <div class="stat-card">
-        <div class="label">$1480 門票</div>
+        <div class="label">$1480 飛</div>
         <div class="value" id="stat-1480">0 張</div>
       </div>
       <div class="stat-card">
-        <div class="label">$1080 門票</div>
-        <div class="value" id="stat-1080">0 張</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">$780 門票</div>
-        <div class="value" id="stat-780">0 張</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">預算總金額 (含手續費)</div>
+        <div class="label">門票總花費</div>
         <div class="value" id="stat-total-price">$0</div>
+      </div>
+      <div class="stat-card unpaid">
+        <div class="label">未清繳總額</div>
+        <div class="value" id="stat-unpaid-price">$0</div>
       </div>
     </div>
 
     <div class="panel">
-      <div class="panel-title">新增搶到嘅門票</div>
+      <div class="panel-title">➕ 入飛（搶到飛即入）</div>
       <form id="ticket-form">
         <div class="form-grid">
           <div class="form-group">
             <label for="buyer">搶飛人</label>
             <select id="buyer" required onchange="checkLorjaiWarning()">
+              <option value="Tracy">Tracy</option>
+              <option value="Lorjai">Lorjai</option>
+              <option value="Yuki">Yuki</option>
+              <option value="Kelly">Kelly</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="payer">邊個墊底出錢？</label>
+            <select id="payer" required>
               <option value="Tracy">Tracy</option>
               <option value="Lorjai">Lorjai</option>
               <option value="Yuki">Yuki</option>
@@ -471,19 +276,27 @@
           </div>
 
           <div class="form-group">
-            <label for="price">票價 (自動加$60手續費)</label>
+            <label for="price">票價 (含$60手續費)</label>
             <select id="price" required>
-              <option value="1680">$1680 (連手續費 $1740)</option>
-              <option value="1480">$1480 (連手續費 $1540)</option>
-              <option value="1080">$1080 (連手續費 $1140)</option>
-              <option value="780">$780 (連手續費 $840)</option>
+              <option value="1680">$1680 (總計 $1740)</option>
+              <option value="1480">$1480 (總計 $1540)</option>
+              <option value="1080">$1080 (總計 $1140)</option>
+              <option value="780">$780 (總計 $840)</option>
             </select>
-            <div class="fee-notice">每張門票均已包含 $60 手續費</div>
           </div>
 
           <div class="form-group">
             <label for="quantity">張數</label>
             <input type="number" id="quantity" min="1" max="10" value="2" required>
+          </div>
+
+          <div class="form-group">
+            <label for="ticketType">門票類型</label>
+            <select id="ticketType" required>
+              <option value="電子飛 (E-Ticket)">電子飛 (E-Ticket)</option>
+              <option value="實體飛">實體飛</option>
+              <option value="取飛碼">取飛碼</option>
+            </select>
           </div>
 
           <div class="form-group">
@@ -496,21 +309,34 @@
           </div>
 
           <div class="form-group">
+            <label for="paymentStatus">找數狀態</label>
+            <select id="paymentStatus" required>
+              <option value="未找數">🔴 未找數</option>
+              <option value="已清繳">🟢 已清繳</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="attendees">最後邊個睇？</label>
+            <input type="text" id="attendees" placeholder="例：Tracy, Yuki">
+          </div>
+
+          <div class="form-group">
             <label for="note">座位 / 備註</label>
-            <input type="text" id="note" placeholder="例：Block A / 4行">
+            <input type="text" id="note" placeholder="例：Block A 4行">
           </div>
         </div>
 
-        <div id="lorjai-alert" style="display:none; color:#fef08a; font-size:0.85rem; margin-top:10px;">
-          ⚠️ 提示：Lorjai 於 12月11-15日 無法出席！請確認是否幫其他人購買。
+        <div id="lorjai-alert" style="display:none; color:#fef08a; font-size:0.8rem; margin-top:10px;">
+          ⚠️️ 留意：Lorjai 12月11-15日 唔得，確認係幫其他人買？
         </div>
 
-        <button type="submit" class="btn">＋ 新增門票紀錄</button>
+        <button type="submit" class="btn">＋ 儲存門票紀錄</button>
       </form>
     </div>
 
     <div class="panel">
-      <div class="panel-title">已搶到門票列表</div>
+      <div class="panel-title">🎫 已入場/搶到嘅門票清單</div>
       
       <div class="table-container desktop-table">
         <table>
@@ -518,29 +344,25 @@
             <tr>
               <th>日期</th>
               <th>搶飛人</th>
-              <th>來源</th>
-              <th>票價 (單張)</th>
-              <th>張數</th>
-              <th>總額 (含手續費)</th>
-              <th>備註</th>
+              <th>墊底人</th>
+              <th>類型/來源</th>
+              <th>座位/分配</th>
+              <th>金額 (張數)</th>
+              <th>找數狀態</th>
               <th>操作</th>
             </tr>
           </thead>
-          <tbody id="ticket-table-body">
-          </tbody>
+          <tbody id="ticket-table-body"></tbody>
         </table>
       </div>
 
-      <div class="mobile-cards" id="mobile-cards-body">
-      </div>
+      <div class="mobile-cards" id="mobile-cards-body"></div>
     </div>
   </div>
 
   <script>
-    // 預設解鎖密碼
     const CORRECT_PASS = "mirror2026";
 
-    // 驗證密碼
     function verifyPassword() {
       const pass = document.getElementById('pass-input').value;
       if (pass === CORRECT_PASS) {
@@ -551,25 +373,18 @@
       }
     }
 
-    // 解鎖應用程式
     function unlockApp() {
       document.getElementById('lock-screen').style.display = 'none';
       document.getElementById('main-app').style.display = 'block';
     }
 
-    // 頁面載入時檢查認證
     window.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('mirror_auth') === 'true') {
-        unlockApp();
-      }
-      
-      // 支援 Enter 鍵解鎖
+      if (localStorage.getItem('mirror_auth') === 'true') unlockApp();
       document.getElementById('pass-input').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') verifyPassword();
       });
     });
 
-    // Firebase 設定
     const firebaseConfig = {
       apiKey: "AIzaSyB3dNQAw5P6y2RdpYP5-13VyncSDZZyRaC",
       authDomain: "mirror-tickets2026.firebaseapp.com",
@@ -590,14 +405,9 @@
       const buyer = document.getElementById('buyer').value;
       const date = document.getElementById('date').value;
       const alertBox = document.getElementById('lorjai-alert');
-      
       const lorjaiBlockedDates = ['12月11日', '12月12日', '12月13日', '12月15日'];
 
-      if (buyer === 'Lorjai' && lorjaiBlockedDates.includes(date)) {
-        alertBox.style.display = 'block';
-      } else {
-        alertBox.style.display = 'none';
-      }
+      alertBox.style.display = (buyer === 'Lorjai' && lorjaiBlockedDates.includes(date)) ? 'block' : 'none';
     }
 
     ticketsRef.on('value', (snapshot) => {
@@ -608,30 +418,33 @@
     document.getElementById('ticket-form').addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const buyer = document.getElementById('buyer').value;
-      const date = document.getElementById('date').value;
-      const price = parseInt(document.getElementById('price').value);
-      const quantity = parseInt(document.getElementById('quantity').value);
-      const source = document.getElementById('source').value;
-      const note = document.getElementById('note').value;
-
       const newTicket = {
-        buyer,
-        date,
-        price,
+        buyer: document.getElementById('buyer').value,
+        payer: document.getElementById('payer').value,
+        date: document.getElementById('date').value,
+        price: parseInt(document.getElementById('price').value),
         fee: 60,
-        quantity,
-        source,
-        note,
+        quantity: parseInt(document.getElementById('quantity').value),
+        ticketType: document.getElementById('ticketType').value,
+        source: document.getElementById('source').value,
+        paymentStatus: document.getElementById('paymentStatus').value,
+        attendees: document.getElementById('attendees').value,
+        note: document.getElementById('note').value,
         timestamp: Date.now()
       };
 
       ticketsRef.push(newTicket);
       document.getElementById('note').value = '';
+      document.getElementById('attendees').value = '';
     });
 
+    function togglePayment(key, currentStatus) {
+      const nextStatus = currentStatus === '未找數' ? '已清繳' : '未找數';
+      ticketsRef.child(key).update({ paymentStatus: nextStatus });
+    }
+
     function deleteTicket(key) {
-      if (confirm('確定要刪除呢條門票紀錄？')) {
+      if (confirm('確定刪除呢條門票紀錄？')) {
         ticketsRef.child(key).remove();
       }
     }
@@ -643,18 +456,14 @@
       tbody.innerHTML = '';
       mobileBody.innerHTML = '';
 
-      let totalCount = 0;
-      let count1680 = 0;
-      let count1480 = 0;
-      let count1080 = 0;
-      let count780 = 0;
-      let totalPrice = 0;
+      let totalCount = 0, count1680 = 0, count1480 = 0;
+      let totalPrice = 0, unpaidPrice = 0;
 
       const keys = Object.keys(ticketsData);
 
       if (keys.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#666;">暫時未有搶飛紀錄</td></tr>`;
-        mobileBody.innerHTML = `<div style="text-align:center; color:#666; padding:20px;">暫時未有搶飛紀錄</div>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#666;">未有任何門票紀錄</td></tr>`;
+        mobileBody.innerHTML = `<div style="text-align:center; color:#666; padding:20px;">未有任何門票紀錄</div>`;
       } else {
         keys.forEach(key => {
           const item = ticketsData[key];
@@ -664,24 +473,26 @@
           totalCount += item.quantity;
           totalPrice += subtotal;
 
+          if (item.paymentStatus === '未找數') unpaidPrice += subtotal;
           if (item.price === 1680) count1680 += item.quantity;
           if (item.price === 1480) count1480 += item.quantity;
-          if (item.price === 1080) count1080 += item.quantity;
-          if (item.price === 780) count780 += item.quantity;
 
-          let sourceBadge = `<span class="badge">${item.source}</span>`;
-          if (item.source === '內部訂購') sourceBadge = `<span class="badge badge-internal">內部訂購</span>`;
-          if (item.source === 'Klook') sourceBadge = `<span class="badge badge-klook">Klook</span>`;
+          const isPaid = item.paymentStatus === '已清繳';
+          const statusBadge = `<span class="badge ${isPaid ? 'badge-paid' : 'badge-unpaid'}" onclick="togglePayment('${key}', '${item.paymentStatus}')" style="cursor:pointer;">${isPaid ? '🟢 已清繳' : '🔴 未找數'}</span>`;
+
+          let sourceBadgeClass = 'badge';
+          if (item.source === '內部訂購') sourceBadgeClass = 'badge badge-internal';
+          if (item.source === 'Klook') sourceBadgeClass = 'badge badge-klook';
 
           const tr = document.createElement('tr');
           tr.innerHTML = `
             <td><strong>${item.date}</strong></td>
             <td>${item.buyer}</td>
-            <td>${sourceBadge}</td>
-            <td>$${item.price} (+$60)</td>
-            <td>${item.quantity} 張</td>
-            <td><strong>$${subtotal}</strong></td>
-            <td>${item.note || '-'}</td>
+            <td>${item.payer || '-'}</td>
+            <td><span class="${sourceBadgeClass}">${item.source}</span><br><small style="color:#888;">${item.ticketType || ''}</small></td>
+            <td>${item.note || '-'}<br><small style="color:#aaa;">睇：${item.attendees || '未分'}</small></td>
+            <td><strong>$${subtotal}</strong> (${item.quantity}張)</td>
+            <td>${statusBadge}</td>
             <td><button class="btn-danger" onclick="deleteTicket('${key}')">刪除</button></td>
           `;
           tbody.appendChild(tr);
@@ -690,17 +501,18 @@
           card.className = 'ticket-card';
           card.innerHTML = `
             <div class="ticket-card-header">
-              <div><strong>${item.date}</strong> (${item.buyer})</div>
-              <div>${sourceBadge}</div>
+              <div><strong>${item.date}</strong> (${item.buyer} 搶)</div>
+              <div>${statusBadge}</div>
             </div>
             <div class="ticket-card-body">
-              <div>票價：$${item.price} (+$60)</div>
-              <div>張數：${item.quantity} 張</div>
-              <div>總額：<strong>$${subtotal}</strong></div>
-              <div>備註：${item.note || '-'}</div>
+              <div>墊底出錢：<strong>${item.payer || '-'}</strong></div>
+              <div>來源/類型：<span class="${sourceBadgeClass}">${item.source}</span> (${item.ticketType || '飛'})</div>
+              <div>金額：<strong>$${subtotal}</strong> (${item.quantity}張)</div>
+              <div>邊個睇：${item.attendees || '未定'}</div>
+              <div style="grid-column: span 2;">座位備註：${item.note || '-'}</div>
             </div>
             <div class="ticket-card-footer">
-              <span style="font-size:0.75rem; color:#666;">含 $60 手續費/張</span>
+              <button class="btn-action" onclick="togglePayment('${key}', '${item.paymentStatus}')">切換找數狀態</button>
               <button class="btn-danger" onclick="deleteTicket('${key}')">刪除</button>
             </div>
           `;
@@ -711,9 +523,8 @@
       document.getElementById('stat-total-count').textContent = `${totalCount} 張`;
       document.getElementById('stat-1680').textContent = `${count1680} 張`;
       document.getElementById('stat-1480').textContent = `${count1480} 張`;
-      document.getElementById('stat-1080').textContent = `${count1080} 張`;
-      document.getElementById('stat-780').textContent = `${count780} 張`;
       document.getElementById('stat-total-price').textContent = `$${totalPrice.toLocaleString()}`;
+      document.getElementById('stat-unpaid-price').textContent = `$${unpaidPrice.toLocaleString()}`;
     }
   </script>
 </body>
